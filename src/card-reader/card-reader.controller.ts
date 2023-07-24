@@ -1,9 +1,11 @@
 import { Controller, Get, Post, Body  } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { CardReaderService } from './card-reader.service'
 import { CardReaderCommandDto } from './dto/card-reader.command.dto'
 import { CardReaderSettingsDto } from './dto/card-reader.settings.dto'
 import { CardReaderScriptDto } from './dto/card-reader.script.dto'
 
+@ApiTags('Card Reader')
 @Controller('card-reader')
 export class CardReaderController {
     constructor(private cardReaderService: CardReaderService) {}

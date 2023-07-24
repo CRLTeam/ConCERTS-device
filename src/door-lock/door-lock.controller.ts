@@ -1,9 +1,11 @@
-import { Controller, Get, Post, Body  } from '@nestjs/common';
+import { Controller, Get, Post, Body } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { DoorLockService } from './door-lock.service'
 import { DoorLockCommandDto } from './dto/door-lock.command.dto'
 import { DoorLockSettingsDto } from './dto/door-lock.settings.dto'
 import { DoorLockScriptDto } from './dto/door-lock.script.dto'
 
+@ApiTags('Door Lock')
 @Controller('door-lock')
 export class DoorLockController {
     constructor(private doorLockService: DoorLockService) {} 
