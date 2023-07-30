@@ -112,7 +112,9 @@ export class CardReaderService {
         let result = false;
         // Only make the call if the URL is set
         if(this.settings.controllerURL.length>0) {
-            this.httpService.post(this.settings.controllerURL, {card: card}).pipe(
+            console.log("Send: ", {action: "check", card: card})
+            console.log("Send to: ", this.settings.controllerURL)
+            this.httpService.post(this.settings.controllerURL, {action: "check", card: card}).pipe(
                 tap((resp) => console.log(resp)),
                 map((resp) => resp.data),
                 tap((data) =>  console.log(data)),

@@ -11,7 +11,7 @@ export class DoorLockService {
 
     // Internal settings
     settings = {
-        buzz: false,
+        buzz: "false",
         locked: true,
         script: [],
         repeat: 0,
