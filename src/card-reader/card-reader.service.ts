@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, HttpException } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { catchError, map } from 'rxjs';
 import { CardReaderCommandDto } from './dto/card-reader.command.dto'
@@ -116,8 +116,8 @@ export class CardReaderService {
             console.log("Send to: ", this.settings.controllerURL)
             this.httpService.post(this.settings.controllerURL, {action: "check", card: card}).pipe(
                 catchError(e => {
-                    console.log("### Error: ", e.response.data, e.response.status);
-                }),
+                    throw new HttpException(e.response.data, e.response.status);
+                }),                
                 map(resp => console.log("REST Response=",resp.data))
             );
         }
