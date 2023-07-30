@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
-import { tap, map } from 'rxjs';
+import { catchError, map } from 'rxjs';
 import { CardReaderCommandDto } from './dto/card-reader.command.dto'
 import { CardReaderSettingsDto } from './dto/card-reader.settings.dto'
 import { CardReaderScriptDto } from './dto/card-reader.script.dto'
@@ -115,9 +115,10 @@ export class CardReaderService {
             console.log("Send: ", {action: "check", card: card})
             console.log("Send to: ", this.settings.controllerURL)
             this.httpService.post(this.settings.controllerURL, {action: "check", card: card}).pipe(
-                tap((resp) => console.log(resp)),
-                map((resp) => resp.data),
-                tap((data) =>  console.log(data)),
+                catchError(e => {
+                    console.log("### Error: ", e.response.data, e.response.status);
+                }),
+                map(resp => console.log("REST Response=",resp.data))
             );
         }
         else {
