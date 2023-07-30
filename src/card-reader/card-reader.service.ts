@@ -114,7 +114,11 @@ export class CardReaderService {
         if(this.settings.controllerURL.length>0) {
             console.log("Send: ", {action: "check", card: card})
             console.log("Send to: ", this.settings.controllerURL)
-            this.httpService.post(this.settings.controllerURL, {action: "check", card: card}).pipe(
+            const options = {
+                method: 'POST',
+                headers: { 'content-type': 'application/json' }
+            };
+            this.httpService.post(this.settings.controllerURL, {action: "check", card: card}, options).pipe(
                 catchError(e => {
                     throw new HttpException(e.response.data, e.response.status);
                 }),                
