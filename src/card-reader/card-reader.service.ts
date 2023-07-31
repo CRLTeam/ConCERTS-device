@@ -118,7 +118,7 @@ export class CardReaderService {
                 method: 'POST',
                 headers: { 'content-type': 'application/json' }
             };
-            this.httpService.post(this.settings.controllerURL, {action: "check", card: card}, options).pipe(
+            this.httpService.post(this.settings.controllerURL, {action: "check", cardId: card}, options).pipe(
                 catchError(e => {
                     throw new HttpException(e.response.data, e.response.status);
                 }),                
