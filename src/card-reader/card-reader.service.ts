@@ -112,7 +112,7 @@ export class CardReaderService {
         let result = false;
         // Only make the call if the URL is set
         if(this.settings.controllerURL.length>0) {
-            console.log("Send: ", {action: "check", card: card})
+            console.log("Send: ", {action: "check", cardId: card})
             console.log("Send to: ", this.settings.controllerURL)
             const options = {
                 method: 'POST',

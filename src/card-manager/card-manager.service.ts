@@ -86,17 +86,17 @@ export class CardManagerService {
     }
 
     // Command sent to device to simulate a trigger
-    async command(action: CardManagerCommandDto): Promise<boolean> {
-        console.log("*** card-manager command:", action);
+    async command(command: CardManagerCommandDto): Promise<boolean> {
+        console.log("*** card-manager command:", command);
         let result = false;
 
         // Check action
-        switch(action.action) {
+        switch(command.action) {
             case 'check':
                 // Send unlock to controller
-                result = await this.check(action.cardId);
+                result = await this.check(command.cardId);
                 // Record swipe in log
-                this.logs.log.push({time: Date.now(), action: 'check', cardId: action.cardId})
+                this.logs.log.push({time: Date.now(), action: 'check', cardId: command.cardId})
                 break;
             default:
                 console.log("*** Undefined action");

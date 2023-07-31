@@ -36,8 +36,8 @@ export class CardManagerController {
     }
 
     @Post('command')
-    async command(@Body() action: CardManagerCommandDto): Promise<boolean> {
-        return this.cardManagerService.command(action);
+    async command(@Body() command: CardManagerCommandDto): Promise<boolean> {
+        return this.cardManagerService.command(command);
     }
 
     @Post('script')
