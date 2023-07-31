@@ -1,6 +1,6 @@
 import { Injectable, HttpException } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
-import { catchError, map } from 'rxjs';
+import { catchError, map, lastValueFrom } from 'rxjs';
 import { CardReaderCommandDto } from './dto/card-reader.command.dto'
 import { CardReaderSettingsDto } from './dto/card-reader.settings.dto'
 import { CardReaderScriptDto } from './dto/card-reader.script.dto'
@@ -114,16 +114,24 @@ export class CardReaderService {
         if(this.settings.controllerURL.length>0) {
             console.log("Send: ", {action: "check", cardId: card})
             console.log("Send to: ", this.settings.controllerURL)
-            const options = {
-                method: 'POST',
-                headers: { 'content-type': 'application/json' }
+
+            const requestConfig = {
+                headers: {
+                  'Content-Type': 'application/json'
+                }
             };
-            this.httpService.post(this.settings.controllerURL, {action: "check", cardId: card}, options).pipe(
-                catchError(e => {
-                    throw new HttpException(e.response.data, e.response.status);
-                }),                
-                map(resp => console.log("REST Response=",resp.data))
+
+            const dataSend = {action: "check", cardId: card}
+              
+            const responseData = await lastValueFrom(
+                this.httpService.post(this.settings.controllerURL, dataSend, requestConfig).pipe(
+                  map((response) => {
+                    return response.data;
+                  }),
+                ),
             );
+            console.log("From POST call:", responseData);
+
         }
         else {
             console.log("sendSwipe - URL not in settings")

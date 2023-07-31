@@ -72,7 +72,7 @@ export class CardManagerService {
     async deviceSettings(settings: CardManagerSettingsDto): Promise<boolean> {
         console.log("*** card-manager deviceSettings:", settings);
         // set the internal settings with the passed in parameter
-        this.settings.valid = settings.valid;
+        this.settings.valid = [...settings.valid];
         this.settings.lockURL = settings.lockURL;
         return true;
     }
