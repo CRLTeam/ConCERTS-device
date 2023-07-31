@@ -95,7 +95,7 @@ export class DoorLockService {
                 // Send unlock to controller
                 result = await this.unlock(action.wait);
                 // Record swipe in log
-                this.logs.log.push({time: Date.now(), action: 'open', delay: action.wait})
+                this.logs.log.push({time: Date.now(), action: 'open', wait: action.wait})
                 break;
             default:
                 console.log("*** Undefined action");

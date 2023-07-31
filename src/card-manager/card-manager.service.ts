@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
-import { tap, map } from 'rxjs';
+import { map, lastValueFrom } from 'rxjs';
 import { CardManagerCommandDto } from './dto/card-manager.command.dto'
 import { CardManagerSettingsDto } from './dto/card-manager.settings.dto'
 import { CardManagerScriptDto } from './dto/card-manager.script.dto'
@@ -112,16 +112,32 @@ export class CardManagerService {
             // Only make the call if the URL is set
             if(this.settings.lockURL.length>0) {
                 console.log("Call to open lock at: ", this.settings.lockURL);
-                this.httpService.post(this.settings.lockURL, {action: 'open', wait: 5}).pipe(
-                    tap((resp) => console.log(resp)),
-                    map((resp) => resp.data),
-                    tap((data) =>  console.log(data)),
+                console.log("Send: ", {action: "open", wait: 5})
+    
+                const requestConfig = {
+                    headers: {
+                      'Content-Type': 'application/json'
+                    }
+                };
+    
+                const dataSend = {action: "open", wait: 5}
+                  
+                const responseData = await lastValueFrom(
+                    this.httpService.post(this.settings.lockURL, dataSend, requestConfig).pipe(
+                      map((response) => {
+                        return response.data;
+                      }),
+                    ),
                 );
+                console.log("From POST call:", responseData);
                 result = true;
             }
             else {
                 console.log("lockURL - URL not in settings")
             }            
+        }
+        else {
+            console.log("Invalid key card");
         }
         return result;
     }
