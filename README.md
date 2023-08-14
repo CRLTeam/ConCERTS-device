@@ -17,6 +17,8 @@ This version of the device simulator supports three types of devices:
 2. Card Manager - a controller that compares the value of the card read with a whitelist of cards
 3. Door Lock - a door lock that can lock and unlock a door
 
+![Card Reader Pattern](https://github.com/CRLTeam/CONCerts-device/blob/main/documentation/CardReaderPattern.png)
+
 To simulate all three working together, you need to provide the settings for the card reader and door manager and then set the script for the card reader.  Running the card reader script will cascade the simulation to all of the devices.  See: start.sh script for automation of the simulation.
 
 ## Installation
