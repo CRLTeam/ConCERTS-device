@@ -1,30 +1,23 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+## CONCerts: An IoT Device activity simulator for building an IoT Cybersecurity Research Range
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
-
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+Developed by the Cybersecurity Research Lab at The Ted Rogers School of Business at Toronto Metropolitan University
 
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+The repository holds the software required for simulating an IoT device. Each device has:
+
+- Settings
+- Commands
+- Log file of executed commands
+- Activity simulation script
+
+This version of the device simulator supports three types of devices:
+
+1. Card Reader - a device that can simulate the swiping of a security card
+2. Card Manager - a controller that compares the value of the card read with a whitelist of cards
+3. Door Lock - a door lock that can lock and unlock a door
+
+To simulate all three working together, you need to provide the settings for the card reader and door manager and then set the script for the card reader.  Running the card reader script will cascade the simulation to all of the devices.  See: start.sh script for automation of the simulation.
 
 ## Installation
 
@@ -36,38 +29,42 @@ $ yarn install
 
 ```bash
 # development
-$ yarn run start
-
-# watch mode
 $ yarn run start:dev
-
-# production mode
-$ yarn run start:prod
 ```
 
-## Test
+## Swagger Interface
 
-```bash
-# unit tests
-$ yarn run test
+This software supports a swagger interface to view the REST API.
 
-# e2e tests
-$ yarn run test:e2e
+http://localhost:3000/api
 
-# test coverage
-$ yarn run test:cov
-```
+## Device REST Calls
 
-## Support
+| Call                            | Description                                                  | Parameters                                                   |
+| ------------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| POST /**card-reader**/settings  | Set the address of the card manager                          | {<br/>  "controllerUrl": "http://localhost:3000/card-manager/command"<br/>} |
+| POST /**card-reader**/command   | Run a card swipe                                             | {<br/>  "action": "swipe",<br/>  "card": 1234<br/>}          |
+| POST /**card-reader**/script    | Set the script for simulation                                | {<br/>  "script": [<br/>    {<br/>      "action": "swipe", "card": 123, "delay": 5<br/>    },<br/>    {<br/>      "action": "swipe", "card": 321, "delay": 10<br/>    }<br/>  ],<br/>  "repeat": 5<br/>} |
+| GET /**card-reader**/start      | Start the simulation script                                  |                                                              |
+| GET /**card-reader**/log        | Get the log file of activity                                 |                                                              |
+| POST /**card-manager**/settings | Set the whitelist of card number and the address of the door lock | {<br/>  "valid": [ 1234, 1235, 1236  ],<br/>  "lockURL": "http://localhost:3000/door-lock/command"<br/>} |
+| POST /**card-manager**/command  | Check a card number                                          | {<br/>  "action": "check",<br/>  "cardId": 1234<br/>}        |
+| POST /**card-manager**/script   | Set the script for simulation                                | {<br/>  "script": [<br/>    {<br/>      "action": "check", "cardId": 1234, "delay": 10<br/>    },<br/>    {<br/>      "action": "check", "cardId": 4321,  "delay": 20<br/>    }<br/>  ],<br/>  "repeat": 2<br/>} |
+| GET /**door-lock**/start        | Start the simulation script                                  |                                                              |
+| GET /**door-lock**/log          | Get the log file of activity                                 |                                                              |
+| POST /**door-lock**/settings    | Turn on or off door lock buzzer sound                        | {<br/>  "buzz": "true"<br/>}                                 |
+| POST /**door-lock**/command     | Open the lock                                                | {<br/>  "action": "open",<br/>  "wait": 5<br/>}              |
+| POST /**door-lock**/script      | Set the script for simulation                                | {<br/>  "script": [<br/>    {<br/>      "action": "open", "wait": 5, "delay": 10<br/>    },<br/>    {<br/>      "action": "open", "wait": 5, "delay": 20<br/>    }<br/>  ],<br/>  "repeat": 2<br/>} |
+| GET /**door-lock**/start        | Start the simulation script                                  |                                                              |
+| GET /**door-lock**/log          | Get the log file of activity                                 |                                                              |
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
 
-## Stay in touch
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+## Project Maintainer
+
+- Dave McKay (https://github.com/dave-promulgare)
 
 ## License
 
-Nest is [MIT licensed](LICENSE).
+CONCerts is [MIT licensed](LICENSE).
+
