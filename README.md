@@ -31,7 +31,7 @@ $ yarn install
 
 ```bash
 # development
-$ yarn run start:dev
+$ yarn start:dev
 ```
 
 ## Swagger Interface
