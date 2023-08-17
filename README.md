@@ -44,9 +44,9 @@ http://localhost:3000/api
 
 | Call                            | Description                                                  | Parameters                                                   |
 | ------------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| POST /**card-reader**/settings  | Set the address of the card manager                          | {<br/>  "controllerUrl": "http://localhost:3000/card-manager/command"<br/>} |
-| POST /**card-reader**/command   | Run a card swipe                                             | {<br/>  "action": "swipe",<br/>  "card": 1234<br/>}          |
-| POST /**card-reader**/script    | Set the script for simulation                                | {<br/>  "script": [<br/>    {<br/>      "action": "swipe", "card": 123, "delay": 5<br/>    },<br/>    {<br/>      "action": "swipe", "card": 321, "delay": 10<br/>    }<br/>  ],<br/>  "repeat": 5<br/>} |
+| POST /**card-reader**/settings  | Set the address of the card manager                          | { "controllerUrl": "http://localhost:3000/card-manager/command" } |
+| POST /**card-reader**/command   | Run a card swipe                                             | { "action": "swipe","card": 1234 }          |
+| POST /**card-reader**/script    | Set the script for simulation                                | { "script": { "action": "swipe", "card": 123, "delay": 5}, { "action": "swipe", "card": 321, "delay": 10 }], "repeat": } |
 | GET /**card-reader**/start      | Start the simulation script                                  |                                                              |
 | GET /**card-reader**/log        | Get the log file of activity                                 |                                                              |
 | POST /**card-manager**/settings | Set the whitelist of card number and the address of the door lock | {<br/>  "valid": [ 1234, 1235, 1236  ],<br/>  "lockURL": "http://localhost:3000/door-lock/command"<br/>} |
