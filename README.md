@@ -1,4 +1,4 @@
-## CONCerts: An IoT Device activity simulator for building an IoT Cybersecurity Research Range
+## ConCERTS: An IoT Device activity simulator for building an IoT Cybersecurity Research Range
 
 Developed by the Cybersecurity Research Lab at The Ted Rogers School of Business at Toronto Metropolitan University
 
