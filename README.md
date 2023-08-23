@@ -1,7 +1,5 @@
 ## ConCERTS: An IoT Device activity simulator for building an IoT Cybersecurity Research Range
 
-Developed by the Cybersecurity Research Lab at The Ted Rogers School of Business at Toronto Metropolitan University
-
 ## Description
 
 The repository holds the software required for simulating an IoT device. Each device has:
