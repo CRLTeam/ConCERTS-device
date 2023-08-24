@@ -62,7 +62,6 @@ http://localhost:3000/api
 
 ## Project Maintainer
 
-- Dave McKay (https://github.com/dave-promulgare)
 
 ## License
 
