@@ -4,7 +4,7 @@
 
 The repository holds the software required for simulating an IoT device. Each device has:
 
-- Settings
+- Settings for devices
 - Commands
 - Log file of executed commands
 - Activity simulation script
