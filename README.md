@@ -11,9 +11,9 @@ The repository holds the software required for simulating an IoT device. Each de
 
 This version of the device simulator supports ten types of devices:
 
-1. [Card Reader](documentation/card-readme.md) - a device that can simulate the swiping of a security card
-2. [Card Manager](documentation/card-readme.md) - a controller that compares the value of the card read with a whitelist of cards
-3. [Door Lock](documentation/card-readme.md) - a door lock that can lock and unlock a door
+1. [Card Reader](documentation/card-README.md) - a device that can simulate the swiping of a security card
+2. [Card Manager](documentation/card-README.md) - a controller that compares the value of the card read with a whitelist of cards
+3. [Door Lock](documentation/card-README.md) - a door lock that can lock and unlock a door
 
 For detailed information on REST calls, see the device documentation.
 
@@ -21,9 +21,9 @@ For detailed information on REST calls, see the device documentation.
 
 To simulate all three working together, you need to provide the settings for the card reader and door manager and then set the script for the card reader.  Running the card reader script will cascade the simulation to all of the devices.  See: start.sh script for automation of the simulation.
 
-4. Motion Detector - a device that detects motion by measuring changes in distance using ultrasonic waves
-5. Motion Manager - a controller that turns on the light if motion is detected and turns off the light if no motion is detected for a time period
-6. Light - a light that can turn on and off
+4. [Motion Detector](documentation/motion-README.md) - a device that detects motion by measuring changes in distance using ultrasonic waves
+5. [Motion Manager](documentation/motion-README.md) - a controller that turns on the light if motion is detected and turns off the light if no motion is detected for a time period
+6. [Light](documentation/motion-README.md) - a light that can turn on and off
 
 ![Motion Diagram](https://github.com/arsh-aps/ConCERTS-device/assets/114761529/1bde315e-1fd5-4b5a-bebd-7792ff46727a)
 
@@ -55,4 +55,4 @@ http://localhost:3000/api
 
 ## License
 
-CONCerts is [MIT licensed](LICENSE).
+ConCERTS is [MIT licensed](LICENSE).
