@@ -25,7 +25,7 @@ export class MotionDetectorController {
       return this.motionDetectorService.getScript();
     }
 
-    // creates script from log file
+    // returns script created from log file
     @Get('logscript')
     async getLogScript(): Promise<any> {
         return this.motionDetectorService.getLogScript();

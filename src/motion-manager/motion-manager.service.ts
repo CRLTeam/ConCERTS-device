@@ -11,6 +11,7 @@ export class MotionManagerService {
 
     timerSubscription: Subscription;
 
+    // Internal settings
     settings = {
         valid: [],
         script: [],
@@ -20,6 +21,7 @@ export class MotionManagerService {
         timerDuration: 20000
     }
 
+    // Activity log
     logs = {
         log: []
     }
@@ -29,11 +31,13 @@ export class MotionManagerService {
         return new Promise( resolve => setTimeout(resolve, ms) );
     }
 
+    // Response to /device call
     status(): String {
         console.log("*** motion-manager status");
         return "checking";
     }
 
+    // Return the data in the log
     log() {
         console.log("*** motion-manager log");
         return this.logs;
@@ -83,10 +87,12 @@ export class MotionManagerService {
         return true;
     }
 
+    // Command sent to device to simulate a trigger
     async command(command: MotionManagerCommandDto): Promise<boolean> {
         console.log("*** motion-manager command:", command);
         let result = false;
 
+        // check action
         switch(command.action) {
             case 'Motion Detected':
                 result = await this.turnOnLights();
@@ -99,8 +105,10 @@ export class MotionManagerService {
         return result;
     }
 
+    // Sends action (on) to light
     async turnOnLights(): Promise<boolean> {
         let result = false;
+        // Only make the call if the URL is set
         if(this.settings.lightURL.length>0){
             console.log("Call to turn on light at: ", this.settings.lightURL);
             console.log("Send: ", {action: "on"})
@@ -129,8 +137,10 @@ export class MotionManagerService {
         return result;
     }
 
+    // Sends action (off) to light
     async turnOffLights(): Promise<boolean> {
         let result = false;
+        // Only make the call if the URL is set
         if(this.settings.lightURL.length>0){
             console.log("Call to turn off light at: ", this.settings.lightURL);
             console.log("Send: ", {action: "off"})
@@ -159,6 +169,7 @@ export class MotionManagerService {
         return result;
     }
 
+    // automatically turns off lights if no motion detected
     startTimer(): void {
         // Start the timer
         this.timerSubscription = timer(this.settings.timerDuration).pipe(

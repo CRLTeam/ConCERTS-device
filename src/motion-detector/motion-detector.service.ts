@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
-import { Gpio } from 'pigpio';
+import { Gpio, initialize } from 'pigpio';
 import { MotionDetectorSettingsDto } from './dto/motion-detector.settings.dto'
 import { MotionDetectorCommandDto } from './dto/motion-detector.command.dto';
 import { MotionDetectorScriptDto } from './dto/motion-detector.script.dto';
@@ -85,7 +85,7 @@ export class MotionDetectorService {
             this.settings.controllerURL = settings.controllerURL;
             result = true;
         }
-        this.startMeasurements();
+        this.initializeSensor();
         return result;
     }
 
@@ -97,35 +97,39 @@ export class MotionDetectorService {
         return true;
     }
 
-    // Response to /start, initializes sensor and starts measuring
-    startMeasurements() {
+    // Initializes sensor and starts measuring
+    initializeSensor() {
         console.log("*** motion-detector start")
         this.settings.status = true;
         this.trigger = new Gpio(23, { mode: Gpio.OUTPUT });
         this.echo = new Gpio(24, { mode: Gpio.INPUT, alert: true });
         this.trigger.digitalWrite(0);
-        this.startSensor();
+        this.measureDistance();
         
+        // sends out pulse through trigger every second (1000 milliseconds)
         setInterval(() => {
-        this.trigger.trigger(10, 1);
+        this.trigger.trigger(10, 1); // sends 10 microsecond pulse
         }, 1000);
     }
 
-    // function to start measuring distance using sensor
-    startSensor() {
+    // Logs motion detected
+    measureDistance() {
         let startTick;
 
+        // listens for alert event on echo pin
         this.echo.on('alert', (level, tick) => {
-        if (this.settings.status && level === 1) {
-            startTick = tick;
-        } else if (this.settings.status) {
-            const endTick = tick;
+        if (this.settings.status && level === 1) {  // echo pin set to high
+            startTick = tick;   
+        } 
+        else if (this.settings.status) {  // echo pin set to low
+            const endTick = tick;   
             const diff = (endTick >> 0) - (startTick >> 0);
             const distance = diff / 2 / MICROSECONDS_PER_CM;
+
             if(distance < this.settings.threshold){
                 console.log('*** motion-detector Motion detected at ', distance.toFixed(2), 'cm')
                 this.logs.log.push({time: Date.now(), action: 'Motion Detected', distance: distance})
-                this.sendAction();
+                this.sendAction();  //send action to motion manager
             } 
         }
         });
@@ -148,9 +152,11 @@ export class MotionDetectorService {
         return result
     }
 
+    // Sends action to motion manager
     async sendAction(): Promise<boolean> {
         console.log("*** motion-detector sendAction");
         let result = false;
+        // Only make the call if the URL is set
         if(this.settings.controllerURL.length>0) {
             console.log("Send: ", {action: 'Motion Detected'})
             console.log("Send to ", this.settings.controllerURL)
@@ -187,7 +193,7 @@ export class MotionDetectorService {
         for (let i = 0; i < logs.length; i++) {
             let delay;
             
-            if(i == logs.length-1) {
+            if(i == logs.length-1) {    // set delay for last action in log
                 delay = 10
             }
             else {

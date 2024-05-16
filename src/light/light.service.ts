@@ -7,12 +7,14 @@ import { LightSettingsDto } from './dto/light.settings.dto';
 export class LightService {
     constructor() {}
 
+    // Internal settings
     settings = {
         script: [],
         repeat: 0,
         on: false
     }
 
+    // Activity log
     logs = {
         log: []
     }
@@ -22,27 +24,32 @@ export class LightService {
         return new Promise( resolve => setTimeout(resolve, ms) );
     }
 
+    // Response to /device call
     status(): String {
         console.log("*** light status");
         return (this.settings.on) ? "Light ON" : "Light OFF";
     }
 
+    // Return the data in the log
     log() {
         console.log("*** light log");
         return this.logs
     }
 
+    // Return the script
     getScript(): any {
         console.log("*** light getScript");
         return { script: this.settings.script, repeat: this.settings.repeat };
     }
 
+    // Turns on light
     lightOn(): boolean {
         this.settings.on = true;
         console.log("*** light turned ON");
         return true;
     }
 
+    // Turns off light
     lightOff():boolean {
         this.settings.on = false;
         console.log("*** light turned OFF");
@@ -63,7 +70,7 @@ export class LightService {
         return true;
     }
 
-    // start the script and return
+    // Start the script and return
     start(): any {
         console.log("*** light turned ON");
         this.runScript();
@@ -87,6 +94,7 @@ export class LightService {
         }
     }
 
+    // receives action (on/off) from motion-manager
     async command(action: LightCommandDto): Promise<boolean> {
         console.log("*** light command:", action);
         let result = false;
