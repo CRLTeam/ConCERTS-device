@@ -1,4 +1,4 @@
-## REST Calls for card-reader, card-manager and door-lock
+## REST Calls for motion-detector, motion-manager and light
 
 | Call                            | Description                                                  | Parameters                                                   |
 | ------------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
