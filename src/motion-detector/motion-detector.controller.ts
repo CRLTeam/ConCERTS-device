@@ -31,23 +31,6 @@ export class MotionDetectorController {
         return this.motionDetectorService.getLogScript();
     }
 
-
-
-    // @Get('start')
-    // startMeasurements() {
-    //     // Start measurements in UltrasonicService
-    //     this.ultrasonicService.startMeasurements();
-    //     return 'Motion detector activated';
-    //     //return this.ultrasonicService.startMeasurements();
-    // }
-
-    // @Get('stop')
-    // stopMeasurements() {
-    //     this.ultrasonicService.stopMeasurements();
-    //     return 'Motion detector deactivated';
-    //     //return this.ultrasonicService.stopMeasurements();
-    // }
-
     @Get('start')
     async start(): Promise<boolean> {
       return this.motionDetectorService.start();

@@ -13,7 +13,6 @@ export class MotionDetectorService {
     private trigger: Gpio;
     private echo: Gpio;
     private isRunning: boolean = false;
-    //private readonly LIGHT_CONTROLLER_URL = 'http://localhost:3000/light';
 
     constructor(private readonly httpService: HttpService) {}
 
@@ -36,7 +35,7 @@ export class MotionDetectorService {
         return new Promise( resolve => setTimeout(resolve, ms) );
     }
 
-        // Response to /device call
+    // Response to /device call
     status(): String {
         console.log("*** motion-detector status");
         return (this.settings.status) ? "Motion Detector ON" : "Motion Detector OFF";
@@ -48,6 +47,7 @@ export class MotionDetectorService {
         return this.logs;
     }
 
+    // return the script
     getScript(): any {
         console.log("*** motion-detector getScript");
         return { script: this.settings.script, repeat: this.settings.repeat };
@@ -97,7 +97,7 @@ export class MotionDetectorService {
         return true;
     }
 
-    // Response to /start, initialises sensor and starts measuring
+    // Response to /start, initializes sensor and starts measuring
     startMeasurements() {
         console.log("*** motion-detector start")
         this.settings.status = true;
@@ -110,14 +110,6 @@ export class MotionDetectorService {
         this.trigger.trigger(10, 1);
         }, 1000);
     }
-
-    // Response to /stop
-    stopMeasurements() {
-        console.log("*** motion-detector stop")
-        this.settings.status = false;
-    }
-
-    
 
     // function to start measuring distance using sensor
     startSensor() {
@@ -185,15 +177,9 @@ export class MotionDetectorService {
             console.log("sendAction - URL not in settings");
         }
         return result;
-        // try {
-        //     //await this.httpService.get(`${this.LIGHT_CONTROLLER_URL}/on`).toPromise();
-        //     await this.httpService.get(`${this.settings.controllerURL}/command`);
-        //     console.log('*** motion-detector Distance sent to controller');
-        // } catch (error) {
-        //     console.error('*** motion-detector Error connecting to controller', error.message);
-        // }
     }
 
+    // generates a script from the logs
     getLogScript() {
         const script = [];
         const logs = this.logs.log

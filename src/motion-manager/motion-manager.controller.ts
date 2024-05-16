@@ -31,11 +31,6 @@ export class MotionManagerController {
       return this.motionManagerService.start();
     }
 
-    // @Get('turn-on-lights')
-    // async turnOnLights() {
-    //     this.motionManagerService.turnOnLights();
-    // }
-
     @Post('settings')
     async settings(@Body() settings: MotionManagerSettingsDto): Promise<boolean> {
         return this.motionManagerService.deviceSettings(settings);

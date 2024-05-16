@@ -87,8 +87,6 @@ export class LightService {
         }
     }
 
-
-
     async command(action: LightCommandDto): Promise<boolean> {
         console.log("*** light command:", action);
         let result = false;

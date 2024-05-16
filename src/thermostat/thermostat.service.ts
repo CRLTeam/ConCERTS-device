@@ -1,16 +1,19 @@
 import { Injectable } from '@nestjs/common';
-import { I2C } from 'raspi-i2c';
+//import { I2C } from 'raspi-i2c';
 import { catchError, map, lastValueFrom } from 'rxjs';
 import { HttpService } from '@nestjs/axios';
 import { ThermostatCommandDto } from './dto/thermostat.command.dto'
 import { ThermostatSettingsDto } from './dto/thermostat.settings.dto'
 import { ThermostatScriptDto } from './dto/thermostat.script.dto'
 
+const i2c = require('i2c-bus');
+
 @Injectable()
 export class ThermostatService {
     constructor(private readonly httpService: HttpService) {}
 
-    private static i2c: I2C = new I2C();
+    //private static i2c: I2C = new I2C();
+    private i2cBus = i2c.openSync(1); // 1 for pi
     private simTemp: number = 0;
 
     // Internal settings
@@ -35,9 +38,12 @@ export class ThermostatService {
         let temp = 0;
         
         try {
-            temp = ThermostatService.i2c.readByteSync(0x48);
-            temp = ThermostatService.i2c.readByteSync(0x48);
-            temp = this.makeCelcuis(temp)
+            //temp = ThermostatService.i2c.readByteSync(0x48);
+            //temp = ThermostatService.i2c.readByteSync(0x48);
+            const address = 0x48;
+            const buffer = Buffer.alloc(2);
+            this.i2cBus.readI2cBlockSync(address, 0x00, buffer.length, buffer);
+            temp = this.makeCelcuis(buffer.readInt16BE());
             console.log("Temperature device: temp=\x1b[40m", temp, "\x1b[47m"); // Read one byte from the AD Converter using i2c
         }
         catch(error) {

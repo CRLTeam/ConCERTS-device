@@ -127,13 +127,6 @@ export class MotionManagerService {
             console.log("lightURL - URL not in settings")
         }
         return result;
-
-        // try {
-        //     await this.httpService.get(`${this.settings.lightURL}/on`);
-        //     console.log('*** motion-manager Lights turned on');
-        // } catch (error) {
-        //     console.error('Error turning lights on: ' + error.message);
-        // }
     }
 
     async turnOffLights(): Promise<boolean> {

@@ -25,18 +25,6 @@ export class LightController {
       return this.lightService.getScript();
     }
 
-    // @Get('on')
-    // async lightOn() {
-    //     return this.lightService.lightOn()
-    // }
-
-    // @Get('off')
-    // async lightOff() {
-    //     return this.lightService.lightOff()
-    // }
-    
-    
-
     @Get('start')
     async start(): Promise<boolean> {
       return this.lightService.start();
