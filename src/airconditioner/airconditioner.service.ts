@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Gpio } from 'onoff';
+import { Gpio } from 'pigpio';
 import { HttpService } from '@nestjs/axios';
 import { AirconditionerCommandDto } from './dto/airconditioner.command.dto'
 import { AirconditionerSettingsDto } from './dto/airconditioner.settings.dto'
@@ -9,7 +9,7 @@ import { AirconditionerScriptDto } from './dto/airconditioner.script.dto'
 export class AirconditionerService {
     constructor(private readonly httpService: HttpService) {}
 
-    private static led = new Gpio(18, 'out');
+    private static led = new Gpio(18, { mode: Gpio.OUTPUT });
     private switchPosition = 'OFF';
 
     // Internal settings
@@ -101,7 +101,7 @@ export class AirconditionerService {
             case 'switch':
                 // Flip switch to on or off position
                 try {
-                    AirconditionerService.led.writeSync(action.value?1:0)
+                    AirconditionerService.led.digitalWrite(action.value?1:0)
                     console.log("Air Conditioner ", action.value?'ON':'OFF'); 
                 }
                 catch(error) {

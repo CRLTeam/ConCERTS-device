@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Gpio } from 'onoff';
+import { Gpio } from 'pigpio';
 import { catchError, map, lastValueFrom } from 'rxjs';
 import { HttpService } from '@nestjs/axios';
 import { FurnaceCommandDto } from './dto/furnace.command.dto'
@@ -10,7 +10,7 @@ import { FurnaceScriptDto } from './dto/furnace.script.dto'
 export class FurnaceService {
     constructor(private readonly httpService: HttpService) {}
 
-    private static led = new Gpio(17, 'out');
+    private static led = new Gpio(17, { mode: Gpio.OUTPUT });
     private switchPosition = 'OFF';
 
     // Internal settings
@@ -102,7 +102,7 @@ export class FurnaceService {
             case 'switch':
                 // Flip switch to on or off position
                 try {
-                    FurnaceService.led.writeSync(action.value?1:0)
+                    FurnaceService.led.digitalWrite(action.value?1:0)
                     console.log("Furnace ", action.value?'ON':'OFF'); 
                 }
                 catch(error) {

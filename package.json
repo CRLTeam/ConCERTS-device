@@ -29,13 +29,18 @@
     "axios": "^1.4.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.0",
+    "i2c-bus": "^5.2.3",
     "node-gyp": "^10.0.1",
-    "onoff": "^6.0.3",
+    "pigpio": "^3.3.1",
     "raspi": "^6.0.1",
-    "raspi-i2c": "^6.2.4",
     "reflect-metadata": "^0.1.13",
+    "rpio": "^2.4.2",
     "rxjs": "^7.8.1",
     "yarn": "^1.22.19"
+  },
+  "optionalDependencies": {
+    "onoff": "^6.0.3",
+    "raspi-i2c": "^6.2.4"
   },
   "devDependencies": {
     "@nestjs/cli": "^10.0.0",
@@ -44,6 +49,7 @@
     "@types/express": "^4.17.17",
     "@types/jest": "^29.5.2",
     "@types/node": "^20.3.1",
+    "@types/rpio": "^2.4.6",
     "@types/supertest": "^2.0.12",
     "@typescript-eslint/eslint-plugin": "^5.59.11",
     "@typescript-eslint/parser": "^5.59.11",

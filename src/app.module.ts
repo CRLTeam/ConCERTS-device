@@ -8,9 +8,12 @@ import { CardManagerModule } from './card-manager/card-manager.module';
 import { ThermostatModule } from './thermostat/thermostat.module';
 import { FurnaceModule } from './furnace/furnace.module';
 import { AirconditionerModule } from './airconditioner/airconditioner.module';
+import { MotionDetectorModule } from './motion-detector/motion-detector.module';
+import { MotionManagerModule } from './motion-manager/motion-manager.module';
+import { LightModule } from './light/light.module';
 
 @Module({
-  imports: [DeviceModule, CardReaderModule, DoorLockModule, CardManagerModule, ThermostatModule, FurnaceModule, AirconditionerModule],
+  imports: [DeviceModule, CardReaderModule, DoorLockModule, CardManagerModule, ThermostatModule, FurnaceModule, AirconditionerModule, MotionDetectorModule, MotionManagerModule, LightModule],
   controllers: [AppController],
   providers: [AppService],
 })
